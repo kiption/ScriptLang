@@ -7,8 +7,8 @@ currentToken = random.choice(['O', 'X'])
 cells = [[], [], []]
 
 def button(frame):
-    cells = Button(frame, bg="pink", image=images[''], relief="groove", padx=100, pady=100,
-                   width=100, height=100, bd=20)
+    cells = Button(frame, bg="pink", image=images[''], relief="groove",
+                   padx=100, pady=100, width=100, height=100, bd=20)
     return cells
 
 def TokenChange():
@@ -17,7 +17,6 @@ def TokenChange():
         if not(i == currentToken):
             currentToken = i
             break
-
 
 def Bingocheck():
     for i in range(3):
@@ -43,10 +42,8 @@ def click(row, col):
     TokenChange()
     label.config(text=currentToken + "- 차례")
 
-
 window = Tk()
 window.title("TicTacToe")
-
 images = {'': PhotoImage(file="empty.gif"), 'X': PhotoImage(file="x.gif"), 'O': PhotoImage(file="o.gif")}
 for i in range(3):
         for j in range(3):
