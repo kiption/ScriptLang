@@ -44,7 +44,7 @@ def click(row, col):
 
 window = Tk()
 window.title("TicTacToe")
-images = {'': PhotoImage(file="empty.gif"), 'X': PhotoImage(file="x.gif"), 'O': PhotoImage(file="o.gif")}
+images = {'': PhotoImage(file="game_sub/empty.gif"), 'X': PhotoImage(file="game_sub/x.gif"), 'O': PhotoImage(file="game_sub/o.gif")}
 for i in range(3):
         for j in range(3):
                 cells[i].append(button(window))
