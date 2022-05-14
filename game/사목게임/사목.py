@@ -31,25 +31,24 @@ class Cell:
         for row in range(5, -1, -1):  # row: 5->0
             if self.matrix[row][col]['text'] == ' ':
                 return row
-        return 6
 
     def pressed(self, col):
         row = self.findRow(col)
-        if not self.done and self.matrix[row][col]['text']==' ':
+        if not self.done and self.matrix[row][col]['text'] == ' ':
             if self.turn:
                 self.matrix[row][col]['image'] = self.imageX
-                self.matrix[row][col]['text'] ='B'
+                self.matrix[row][col]['text'] = 'X'
             else:
                 self.matrix[row][col]['image'] = self.imageO
-                self.matrix[row][col]['text'] = 'W'
+                self.matrix[row][col]['text'] = 'O'
             self.turn = not self.turn
-            if self.check()!= '':
+            if self.check() != '':
                 self.done = True
                 self.explain.set('Player'+self.check()+'win')
             elif self.turn:
-                self.explain.set('Player B turn')
+                self.explain.set('Player X turn')
             else:
-                self.explain.set('Player W turn')
+                self.explain.set('Player O turn')
 
     def refresh(self):
         for i in range(6):
@@ -57,18 +56,16 @@ class Cell:
                 self.matrix[i][j]['image'] = self.imageE
                 self.matrix[i][j]['text'] = ' '
         self.done = False
-        self.explain.set("Player B turn")
+        self.explain.set("Player X turn")
         self.turn = True
 
     def check(self):
-        #row Check
         for i in range(6):
             for j in range(4):  # 4개 판별.
                 Player = self.matrix[i][j]['text']
                 if Player != ' ' and Player == self.matrix[i][j + 1]['text'] \
                         and Player == self.matrix[i][j + 2]['text'] and Player == self.matrix[i][j + 3]['text']:
                     return Player
-
         # col Check
         for i in range(3):
             for j in range(7):
@@ -76,23 +73,19 @@ class Cell:
                 if Player != ' ' and Player == self.matrix[i + 1][j]['text'] \
                         and Player == self.matrix[i + 2][j]['text'] and Player == self.matrix[i + 3][j]['text']:
                     return Player
-
-            # cross Check (left->right)
+        # cross Check (left->right)
         for i in range(3):
             for j in range(4):  # col 0~3
                 Player = self.matrix[i][j]['text']
                 if Player != ' ' and Player == self.matrix[i + 1][j + 1]['text'] \
                         and Player == self.matrix[i + 2][j + 2]['text'] and Player == self.matrix[i + 3][j + 3]['text']:
-                    print("대각선 좌에서 우", i, j)
                     return Player
-
-            # cross Check (right->left)
+        # cross Check (right->left)
         for i in range(3):
             for j in range(3, 7):  # col 3~6
                 Player = self.matrix[i][j]['text']
                 if Player != ' ' and Player == self.matrix[i + 1][j - 1]['text'] \
                         and Player == self.matrix[i + 2][j - 2]['text'] and Player == self.matrix[i + 3][j - 3]['text']:
-                    print("대각선 좌에서 우", i, j)
                     return Player
         return ''
 
