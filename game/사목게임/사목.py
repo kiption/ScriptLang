@@ -1,30 +1,48 @@
 from tkinter import*
-class Cell(Canvas):
-    def __init(self, parent, row, col, width=20, height=20):
-        Canvas.__init__(self, parent, width=width, height=height, bg="blue", borderwidth=2)
-        self.color = "white"
-        self.row = row
-        self.col = col
 
-        self.create_oval(4, 4, 20, 20, fill=self.color, tags="oval")
-        self.bind("<Button-1>",self.clicked)
+matrix = []
+def drawBoard():
+    for i in range(6):
+        for j in range(7):
+            print('ㅣ',matrix[i][j],' ',end='')
+        print('ㅣ')
+    print("--------------------------")
 
-    def clicked(self, event):
-        nextcolor = "red" if self.color != "red" else "yellow"
-        self.setColor(nextcolor)
+def check():
+    for i in range(6):
+        for j in range(7):
 
-    def setColor(self,color):
-        self.delete("oval")
-        self.color = color
-        self.create_oval(4, 4, 20, 20, fill=self.color, tags="oval")
+def findRow(col):
+    for row in range(5, -1, -1): # row: 5->0
+        if matrix[row][col] == ' ':
+            return row
+    return 6
 
-window = Tk()
-window.title("Connect Four") # Set title
+def main():
+    for i in range(6):
+        matrix.append([])
+        for j in range(7):
+            matrix[i].append(' ')
 
-frame1 = Frame(window)
-frame1.pack()
+    drawBoard()
+    turn = True
+    while(True):
+        if turn:
+            col = eval(input("열 0~6사이 하얀돌을 입력하세요: "))
 
-cell = Cell(frame1, width=20, height=20)
-cell.grid(row=0, column=0)
+        else:
+            col = eval(input("열 0~6사이 겅은돌을 입력하세요: "))
 
-window.mainloop()   # Create an event loop
+        row = findRow(col) # 들어갈 행 구하기
+        if turn:
+            matrix[row][col] = 'W'
+        else:
+            matrix[row][col] = 'B'
+        drawBoard()
+        Player = check()
+        if Player !='':
+            print("플레이어", Player, "가 이겼습니다")
+            break
+        turn = not turn
+
+main()
