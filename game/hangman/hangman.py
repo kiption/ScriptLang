@@ -45,6 +45,7 @@ class Hangman(Canvas):
                 self.Print2 = False
             self.message4 = self.canvas.create_text(50, 300, text=" is already in missed list", font=("Arial 15", 10),
                                                     anchor="w")
+            self.Print2 = True
             return
 
         if CorrentAlpha in self.word:
@@ -60,27 +61,19 @@ class Hangman(Canvas):
             if self.count < 7:
                 msg1 = "Guess a word: " + str(SecretWord)
                 msg2 = "Missed letter: " + str(WrongList)
-                print("msg1", msg1)
-                print("msg2", msg2)
             else:
                 msg1 = "Sorry! The word is: " + str(self.word)
                 msg2 = "To continue the game, press ENTER"
-                print("msg1", msg1)
-                print("msg2", msg2)
 
         if '*' not in SecretWord:
             msg1 = "Congrats! The word is: " + str(self.word)
             msg2 = "To continue the game, press ENTER"
-            print("msg1", msg1)
-            print("msg2", msg2)
-
         self.draw(SecretWord, msg1, msg2)
 
     def hiddenWord(self):
         word_file = open('hangman.txt', 'r+')
         secret_word = random.choice(word_file.read().split())
         word_file.close()
-        print(secret_word)
         return secret_word
 
 
