@@ -1,10 +1,14 @@
 from tkinter import *
 from tkinter import font
+from PIL import ImageTk
 
-mainText = "Where fi?"
+
+mainText = "WhereFi"
 g_Tk = Tk()
 g_Tk.title(mainText)
 g_Tk.geometry("400x600+450+100")  # {width}x{height}+-{xpos}+-{ypos}
+
+images = {'Wifi': PhotoImage(file="circleGif.gif"), 'Map': PhotoImage(file="map.png"), 'Email': PhotoImage(file="email.png")}
 
 def event_for_listbox(event):  # 리스트 선택 시 내용 출력
     selection = event.widget.curselection()
@@ -14,7 +18,7 @@ def event_for_listbox(event):  # 리스트 선택 시 내용 출력
         print(data)
 
 def InitScreen():
-    global mainText
+    global mainText, WifiButtonImg
     fontTitle = font.Font(g_Tk, size=18, weight='bold', family='여기어때 잘난체 OTF')
     fontNormal2 = font.Font(g_Tk, size=15, weight='bold')
     fontNormal = font.Font(g_Tk, size=14, weight='bold')
@@ -29,7 +33,14 @@ def InitScreen():
     MainText = Label(frameTitle, font=fontTitle, text=mainText)
     MainText.pack(anchor="center", fill="both")
 
-    sendEmailButton = Button(frameCombo, font=fontNormal2, text='이메일')
+
+    WhereFiIconBox = Label(frameCombo, image=images['Wifi'])
+    WhereFiIconBox.pack(side='left', padx=10, fill='y', expand=True)
+
+    MapIconButton = Button(frameCombo, image=images['Map'])
+    MapIconButton.pack(side='left', padx=80, fill='y', expand=True)
+
+    sendEmailButton = Button(frameCombo, image=images['Email'], command=onEmailPopup)
     sendEmailButton.pack(side='right', padx=10, fill='y')
 
     global SearchListBox
