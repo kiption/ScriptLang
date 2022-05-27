@@ -46,7 +46,7 @@ def InitScreen():
     global SearchListBox
     LBScrollbar = Scrollbar(frameEntry)
     SearchListBox = Listbox(frameEntry, font=fontNormal, activestyle='none', width=13, height=1, borderwidth=12, relief='ridge', yscrollcommand=LBScrollbar.set)
-    slist = ["도서관", "모범음식점", "마트", "문화공간"]
+    slist = []
     for i, s in enumerate(slist):
         SearchListBox.insert(i, s)
     SearchListBox.pack(side='left', padx=10,  fill="both")
