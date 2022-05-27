@@ -2,13 +2,14 @@ from tkinter import *
 from tkinter import font
 from PIL import ImageTk
 
-
+bgColor ='#8BDDD7'
 mainText = "WhereFi"
 g_Tk = Tk()
 g_Tk.title(mainText)
 g_Tk.geometry("400x600+450+100")  # {width}x{height}+-{xpos}+-{ypos}
 
-images = {'Wifi': PhotoImage(file="circleGif.gif"), 'Map': PhotoImage(file="map.png"), 'Email': PhotoImage(file="email.png")}
+images = {'Wifi': PhotoImage(file="WifiLogo.png"), 'Map': PhotoImage(file="map.png"),
+          'Email': PhotoImage(file="email.png"), 'Title': PhotoImage(file="Title2.png")}
 
 def event_for_listbox(event):  # 리스트 선택 시 내용 출력
     selection = event.widget.curselection()
@@ -19,45 +20,49 @@ def event_for_listbox(event):  # 리스트 선택 시 내용 출력
 
 def InitScreen():
     global mainText, WifiButtonImg
-    fontTitle = font.Font(g_Tk, size=18, weight='bold', family='여기어때 잘난체 OTF')
+    #fontTitle = font.Font(g_Tk, size=18, weight='bold', family='여기어때 잘난체 OTF')
     fontNormal2 = font.Font(g_Tk, size=15, weight='bold')
-    fontNormal = font.Font(g_Tk, size=14, weight='bold')
-    frameTitle = Frame(g_Tk, padx=10, pady=10, bg='#909090')
+    fontNormal = font.Font(g_Tk, size=10, weight='bold')
+    frameTitle = Frame(g_Tk, padx=10, pady=10, bg=bgColor)
     frameTitle.pack(side="top", fill="x")
-    frameCombo = Frame(g_Tk, pady=10, bg='#909090')
+    frameCombo = Frame(g_Tk, pady=10, bg=bgColor)
     frameCombo.pack(side="top", fill="x")
-    frameEntry = Frame(g_Tk, pady=10, bg='#909090')
+    frameEntry = Frame(g_Tk, pady=10, bg=bgColor)
     frameEntry.pack(side="top", fill="x")
-    frameList = Frame(g_Tk, padx=10, pady=10, bg='#909090')
+    frameList = Frame(g_Tk, padx=10, pady=10, bg=bgColor)
     frameList.pack(side="bottom", fill="both", expand=True)
-    MainText = Label(frameTitle, font=fontTitle, text=mainText)
-    MainText.pack(anchor="center", fill="both")
+    #MainText = Label(frameTitle, image=images['Title'], bg='#A7E5E1')
+    #MainText.pack(anchor="center", fill="both")
 
 
-    WhereFiIconBox = Label(frameCombo, image=images['Wifi'])
+    WhereFiIconBox = Label(frameCombo, image=images['Title'], bg=bgColor)
     WhereFiIconBox.pack(side='left', padx=10, fill='y', expand=True)
 
-    MapIconButton = Button(frameCombo, image=images['Map'])
-    MapIconButton.pack(side='left', padx=80, fill='y', expand=True)
+    MapIconButton = Button(frameCombo, image=images['Map'], bg=bgColor)
+    MapIconButton.pack(side='left', padx=10, fill='y', expand=True)
 
-    sendEmailButton = Button(frameCombo, image=images['Email'], command=onEmailPopup)
-    sendEmailButton.pack(side='right', padx=10, fill='y')
+    sendEmailButton = Button(frameCombo, image=images['Email'], command=onEmailPopup, bg=bgColor)
+    sendEmailButton.pack(side='right', padx=10, fill='y', expand=True)
+
+
+
 
     global SearchListBox
     LBScrollbar = Scrollbar(frameEntry)
-    SearchListBox = Listbox(frameEntry, font=fontNormal, activestyle='none', width=13, height=1, borderwidth=12, relief='ridge', yscrollcommand=LBScrollbar.set)
+    SearchListBox = Listbox(frameEntry, font=fontNormal2, activestyle='none', width=11, height=1,
+                            borderwidth=12, relief='ridge', yscrollcommand=LBScrollbar.set)
     slist = []
     for i, s in enumerate(slist):
         SearchListBox.insert(i, s)
-    SearchListBox.pack(side='left', padx=10,  fill="both")
+    SearchListBox.pack(side='left', anchor='n', expand=True, fill="x")
     LBScrollbar.pack(side="left")
     LBScrollbar.config(command=SearchListBox.yview)
 
     global InputLabel
-    InputLabel = Entry(frameEntry, font=fontNormal, width=8, borderwidth=12, relief='ridge')
-    InputLabel.pack(side="left", padx=10)
     SearchButton = Button(frameEntry, font=fontNormal, text="검색", command=onSearch)
-    SearchButton.pack(side="right", fill='y', padx=10)
+    SearchButton.pack(side="right", padx=10)
+    InputLabel = Entry(frameEntry, font=fontNormal2, width=10, borderwidth=12, relief='ridge')
+    InputLabel.pack(side="right", anchor='n', fill="x", expand=True)
 
     # 목록 부분
     global listBox
@@ -65,7 +70,7 @@ def InitScreen():
     listBox = Listbox(frameList, selectmode='extended', font=fontNormal2, width=10, height=15, borderwidth=12,
                       relief='ridge', yscrollcommand=LBScrollbar.set)
     listBox.bind('<<ListboxSelect>>', event_for_listbox)
-    listBox.pack(side='left', anchor='n', expand=True, fill="x")
+    listBox.pack(side='left', anchor='n', expand=True, fill="both")
     LBScrollbar.pack(side="left", fill='y')
     LBScrollbar.config(command=listBox.yview)
 
@@ -73,7 +78,7 @@ def InitScreen():
     listBox = Listbox(frameList, selectmode='extended', font=fontNormal2, width=10, height=15, borderwidth=12,
                       relief='ridge', yscrollcommand=RBScrollbar.set)
     listBox.bind('<<ListboxSelect>>', event_for_listbox)
-    listBox.pack(side='left', anchor='n', expand=True, fill="x")
+    listBox.pack(side='left', anchor='n', expand=True, fill="both")
     RBScrollbar.pack(side="right", fill='y')
     RBScrollbar.config(command=listBox.yview)
 
