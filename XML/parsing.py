@@ -58,13 +58,13 @@ def SearchWifi(SIGUN):
 
     for item in DataDoc:
         if item['SIGUN_NM'] == SIGUN:
-            print('설치장소:', item['INSTL_PLC_DETAIL_DTLS'])
-            print('도로명주소:', item['REFINE_ROADNM_ADDR'])
-            print('지번주소:', item['REFINE_LOTNO_ADDR'])
-            print('SSID:', item['WIFI_SSID_INFO'])
-            print('관리기관명:', item['MANAGE_INST_NM'])
-            print('전화번호:', item['MANAGE_INST_TELNO'])
-            print('=========================================')
+            #print('설치장소:', item['INSTL_PLC_DETAIL_DTLS'])
+            #print('도로명주소:', item['REFINE_ROADNM_ADDR'])
+            #print('지번주소:', item['REFINE_LOTNO_ADDR'])
+            #print('SSID:', item['WIFI_SSID_INFO'])
+            #print('관리기관명:', item['MANAGE_INST_NM'])
+            #print('전화번호:', item['MANAGE_INST_TELNO'])
+            #print('=========================================')
 
             wifi_list.append(item)
 

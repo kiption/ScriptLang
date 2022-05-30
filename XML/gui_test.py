@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import font
 from PIL import ImageTk
+import parsing
+
 
 bgColor ='#8BDDD7'
 mainText = "WhereFi"
@@ -12,14 +14,16 @@ images = {'Wifi': PhotoImage(file="WifiLogo.png"), 'Map': PhotoImage(file="map.p
           'Email': PhotoImage(file="email.png"), 'Title': PhotoImage(file="Title2.png")}
 
 def event_for_listbox(event):  # 리스트 선택 시 내용 출력
+    global data
     selection = event.widget.curselection()
     if selection:
         index = selection[0]
         data = event.widget.get(index)
+
         print(data)
 
 def InitScreen():
-    global mainText, WifiButtonImg
+    global mainText, WifiButtonImg, Search
     #fontTitle = font.Font(g_Tk, size=18, weight='bold', family='여기어때 잘난체 OTF')
     fontNormal2 = font.Font(g_Tk, size=15, weight='bold')
     fontNormal = font.Font(g_Tk, size=10, weight='bold')
@@ -34,6 +38,7 @@ def InitScreen():
     #MainText = Label(frameTitle, image=images['Title'], bg='#A7E5E1')
     #MainText.pack(anchor="center", fill="both")
 
+    Search = False
 
     WhereFiIconBox = Label(frameCombo, image=images['Title'], bg=bgColor)
     WhereFiIconBox.pack(side='left', padx=10, fill='y', expand=True)
@@ -45,23 +50,26 @@ def InitScreen():
     sendEmailButton.pack(side='right', padx=10, fill='y', expand=True)
 
 
-
-
     global SearchListBox
     LBScrollbar = Scrollbar(frameEntry)
     SearchListBox = Listbox(frameEntry, font=fontNormal2, activestyle='none', width=11, height=1,
-                            borderwidth=12, relief='ridge', yscrollcommand=LBScrollbar.set)
-    slist = []
+                            borderwidth=12, relief='ridge', yscrollcommand=LBScrollbar.set, selectbackground='thistle4')
+    slist = ['오산시', '부천시', '광주시', '포천시', '평택시', '안산시', '양평군', '김포시', '파주시',
+             '고양시', '성남시', '여주시', '수원시', '양주시', '연천군', '화성시', '과천시', '시흥시',
+             '구리시', '남양주시', '의왕시', '안성시', '하남시', '용인시', '안양시', '광명시', '의정부시',
+             '가평군', '동두천시', '이천시', '군포시']
     for i, s in enumerate(slist):
         SearchListBox.insert(i, s)
+    SearchListBox.bind('<<ListboxSelect>>', event_for_listbox)
     SearchListBox.pack(side='left', anchor='n', expand=True, fill="x")
     LBScrollbar.pack(side="left")
     LBScrollbar.config(command=SearchListBox.yview)
 
     global InputLabel
-    SearchButton = Button(frameEntry, font=fontNormal, text="검색", command=onSearch)
-    SearchButton.pack(side="right", padx=10)
+    SearchButton = Button(frameEntry, font=fontNormal, text="검색", command=GetInfo)
     InputLabel = Entry(frameEntry, font=fontNormal2, width=10, borderwidth=12, relief='ridge')
+
+    SearchButton.pack(side="right", padx=10)
     InputLabel.pack(side="right", anchor='n', fill="x", expand=True)
 
     # 목록 부분
@@ -69,7 +77,8 @@ def InitScreen():
     LBScrollbar = Scrollbar(frameList)
     listBox = Listbox(frameList, selectmode='extended', font=fontNormal2, width=10, height=15, borderwidth=12,
                       relief='ridge', yscrollcommand=LBScrollbar.set)
-    listBox.bind('<<ListboxSelect>>', event_for_listbox)
+    for i, s in enumerate(parsing.wifi_list):
+        listBox.insert(i, s['INSTL_PLC_DETAIL_DTLS'])
     listBox.pack(side='left', anchor='n', expand=True, fill="both")
     LBScrollbar.pack(side="left", fill='y')
     LBScrollbar.config(command=listBox.yview)
@@ -81,6 +90,11 @@ def InitScreen():
     listBox.pack(side='left', anchor='n', expand=True, fill="both")
     RBScrollbar.pack(side="right", fill='y')
     RBScrollbar.config(command=listBox.yview)
+
+def GetInfo():
+    global data, Search
+    Search = True
+    parsing.SearchWifi(data)
 
 
 def onSearch():  # "검색" 버튼 이벤트처리
