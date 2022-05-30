@@ -87,10 +87,18 @@ class GUI:
         RBScrollbar = Scrollbar(self.frameList)
         listBox2 = Listbox(self.frameList, selectmode='extended', font=self.fontNormal2, width=10, height=15, borderwidth=12,
                           relief='ridge', yscrollcommand=RBScrollbar.set)
+
         for s in parsing.wifi_list:
             if s['TMP01'] == data2:
-                # listBox2.insert(END, s['INSTL_PLC_DETAIL_DTLS'],s['REFINE_ROADNM_ADDR'],['REFINE_LOTNO_ADDR'])
-                listBox2.insert(END, s)
+                listBox2.insert(END,'====================상세정보====================',
+                                '설치장소상세 - ' + s['INSTL_PLC_DETAIL_DTLS'],
+                                '도로명 주소 - ' + s['REFINE_ROADNM_ADDR'],
+                                '지번 주소 - ' + s['REFINE_LOTNO_ADDR'],
+                                'SSID - ' + s['WIFI_SSID_INFO'],
+                                '관리 기관명 - ' + s['MANAGE_INST_NM'],
+                                '전화번호 - ' + s['MANAGE_INST_TELNO'],
+                                '===============================================')
+
         listBox.bind('<<ListboxSelect>>', clicked_listbox)
         listBox2.pack(side='left', anchor='n', expand=True, fill="both")
         RBScrollbar.pack(side="right", fill='y')
@@ -160,12 +168,11 @@ def event_for_listbox(event):  # 리스트 선택 시 내용 출력
         print(data)
 
 def clicked_listbox(event):  # 리스트 선택 시 내용 출력
-    global data2, listBox2
+    global data2
     selection = event.widget.curselection()
     if selection:
         index = selection[0]
         data2 = event.widget.get(index)
-        listBox2.destroy()
         print(data2)
     print('클릭')
 
