@@ -150,7 +150,7 @@ class GUI:
         global inputEmail, btnEmail
         inputEmail = Entry(popup, width=200, )
         inputEmail.pack(fill='x', padx=10, expand=True)
-        btnEmail = Button(popup, text="확인", command= self.onEmailInput())
+        btnEmail = Button(popup, text="확인", command= self.onEmailInput)
         btnEmail.pack(anchor="s", padx=10, pady=10)
 
     def draw(self):

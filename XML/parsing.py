@@ -6,7 +6,6 @@ import xml.etree.ElementTree as ET              # elment 관리에 사용할 클
 
 #인증키
 My_API_Key = unquote('479bf253ef6045b9ad99cc507e191013')
-
 #url
 xmlUrl = 'https://openapi.gg.go.kr/FreeChargeWiFi'
 
