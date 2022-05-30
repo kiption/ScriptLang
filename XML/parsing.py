@@ -1,6 +1,4 @@
-# import requests
-# import pandas as pd
-# from lxml import html
+
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
 from xml.dom.minidom import *               # 파일 파싱에 사용할 함수
@@ -58,22 +56,6 @@ def SearchWifi(SIGUN):
 
     for item in DataDoc:
         if item['SIGUN_NM'] == SIGUN:
-            #print('설치장소:', item['INSTL_PLC_DETAIL_DTLS'])
-            #print('도로명주소:', item['REFINE_ROADNM_ADDR'])
-            #print('지번주소:', item['REFINE_LOTNO_ADDR'])
-            #print('SSID:', item['WIFI_SSID_INFO'])
-            #print('관리기관명:', item['MANAGE_INST_NM'])
-            #print('전화번호:', item['MANAGE_INST_TELNO'])
-            #print('=========================================')
-
             wifi_list.append(item)
 
-### example
-
 connectOpenAPI()
-SearchWifi('시흥시')
-
-i = 1
-for loc in wifi_list:
-    print('[',i,']', loc['REFINE_ROADNM_ADDR'], '위도, 경도 : ', loc['REFINE_WGS84_LAT'], loc['REFINE_WGS84_LOGT'])
-    i += 1
