@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import font
 from PIL import ImageTk
 import parsing
+import tkintermapview
 
 data = []
 data2 = []
@@ -16,8 +17,8 @@ g_Tk = Tk()
 g_Tk.title(mainText)
 g_Tk.geometry("1200x800+450+100")  # {width}x{height}+-{xpos}+-{ypos}
 
-images = {'Wifi': PhotoImage(file="WifiLogo.png"), 'Map': PhotoImage(file="map.png"),
-          'Email': PhotoImage(file="email.png"), 'Title': PhotoImage(file="Title2.png")}
+images = {'Wifi': PhotoImage(file="image/WifiLogo.png"), 'Map': PhotoImage(file="image/map.png"),
+          'Email': PhotoImage(file="image/email.png"), 'Title': PhotoImage(file="image/Title2.png")}
 class GUI:
     def __init__(self):
         global mainText, WifiButtonImg, Search
@@ -44,7 +45,7 @@ class GUI:
         WhereFiIconBox = Label(self.frameCombo, image=images['Title'], bg=bgColor)
         WhereFiIconBox.pack(side='left', padx=10, fill='y', expand=True)
 
-        MapIconButton = Button(self.frameCombo, image=images['Map'], bg=bgColor)
+        MapIconButton = Button(self.frameCombo, image=images['Map'], bg=bgColor, command=self.onMapPopup)
         MapIconButton.pack(side='left', padx=10, fill='y', expand=True)
 
         sendEmailButton = Button(self.frameCombo, image=images['Email'], command=self.onEmailPopup, bg=bgColor)
@@ -132,6 +133,19 @@ class GUI:
         elif iSearchIndex == 3:
             pass
 
+    def onMapPopup(self):
+        global g_Tk, data2
+        for s in parsing.wifi_list:
+            if s['TMP01'] == data2:
+                popup = Toplevel(g_Tk)  # popup 띄우기
+                popup.geometry(f"{800}x{600}")
+                popup.title("map.py")
+                map_widget = tkintermapview.TkinterMapView(popup, width=800, height=500, corner_radius=0)
+                map_widget.pack()
+                marker_1 = map_widget.set_address(s['REFINE_ROADNM_ADDR'], marker=True)
+                print(marker_1.position, marker_1.text)
+                marker_1.set_text(s['TMP01'])
+                map_widget.set_zoom(15)
 
     def getStr(s):
         return '' if not s else s
@@ -150,7 +164,7 @@ class GUI:
         global inputEmail, btnEmail
         inputEmail = Entry(popup, width=200, )
         inputEmail.pack(fill='x', padx=10, expand=True)
-        btnEmail = Button(popup, text="확인", command= self.onEmailInput)
+        btnEmail = Button(popup, text="확인", command=self.onEmailInput)
         btnEmail.pack(anchor="s", padx=10, pady=10)
 
     def draw(self):
