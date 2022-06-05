@@ -3,6 +3,7 @@ from tkinter import font
 from PIL import ImageTk
 import parsing
 import tkintermapview
+import send_gmail
 
 data = []
 data2 = []
@@ -152,18 +153,36 @@ class GUI:
 
     def onEmailInput(self):
         global addrEmail
+        global popup, data2
         addrEmail = inputEmail.get()
+
+        str = ""
+        for s in parsing.wifi_list:
+            if s['TMP01'] == data2:
+                str = s['TMP01'] + "의 와이파이 상세 정보" + '\n' + \
+                      "지번주소:" + s['REFINE_LOTNO_ADDR'] + '\n' + \
+                      '도로명주소:' + s['REFINE_ROADNM_ADDR'] + '\n' + \
+                      '위도:' + s['REFINE_WGS84_LOGT'] + '\n' + \
+                      '경도:' + s['REFINE_WGS84_LAT'] + '\n' + \
+                      '전화번호:' + s['MANAGE_INST_TELNO'] + '\n'
+
+                send_gmail.sendMail(addrEmail, str)
+
+        # sendMail(senderAddr, recipientAddr, msg)
         popup.destroy()  # popup 내리기
 
     def onEmailPopup(self):
         global g_Tk, addrEmail, popup
         addrEmail = None
+
         popup = Toplevel(g_Tk)  # popup 띄우기
         popup.geometry("300x150")
         popup.title("받을 이메일 주소 입력")
+
         global inputEmail, btnEmail
         inputEmail = Entry(popup, width=200, )
         inputEmail.pack(fill='x', padx=10, expand=True)
+
         btnEmail = Button(popup, text="확인", command=self.onEmailInput)
         btnEmail.pack(anchor="s", padx=10, pady=10)
 
