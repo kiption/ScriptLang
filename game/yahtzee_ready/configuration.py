@@ -60,10 +60,10 @@ class Configuration:
         return 0
 
 
-    def scoreFourOfAKind(d):
+    def scoreFourOfAKind(dice):
         dic = {}
         result = 0
-        for i in d:
+        for i in dice:
             result += i.getRoll()
             try:
                 dic[i.getRoll()] += 1
@@ -134,11 +134,12 @@ class Configuration:
         dic = {}
         result = 0
         for i in dice:
-            result += i.getRoll()
-            try:
-                dic[i.getRoll()] += 1
-            except:
-                dic[i.getRoll()] = 1
+            if i.getRoll() > 0:
+                result += i.getRoll()
+                try:
+                    dic[i.getRoll()] += 1
+                except:
+                    dic[i.getRoll()] = 1
 
         for key, val in dic.items():
 

@@ -160,19 +160,19 @@ class YahtzeeBoard:
             val = max(d.values())
             resurtList = list(key for key, value in d.items() if value == val)
             if len(resurtList) == 1:
-                a = "승자는: " + resurtList[0] + " 입니다."
-                self.winnertag = Label(self.window, text=a, font=self.TempFont).grid(row=10, column=0)
+                msg = "승자는" + resurtList[0] + "입니다."
+                messagebox.showinfo("알림",msg)
             else:
                 resultstr = ""
                 for x in resurtList:
-                    resultstr += resultstr + x + ","
-                resultstr += "가 비겼습니다."
-                self.winnertag = Label(self.window, text=resultstr, font=self.TempFont).grid(row=10, column=0)
-
-
+                    resultstr += x + ","
+                resultstr += "이(가) 비겼습니다."
+                msg = resultstr
+                messagebox.showinfo("알림", msg)
 
             self.round = 0
             self.player = 0
+
             for i in range(5):
                 self.diceButtons[i].configure(text='?')
                 self.diceButtons[i]['state'] = 'normal'
@@ -192,7 +192,8 @@ class YahtzeeBoard:
                 player.scores = [0 for i in range(15)]
                 player.used = [False for i in range(15)]
 
-            # 다시 Roll Dice 버튼과 diceButtons 버튼들을 활성화.
+        # 다시 Roll Dice 버튼과 diceButtons 버튼들을 활성화.
+
         self.rollDice.configure(text="Roll Dice")
         self.rollDice['state'] = 'normal'
         self.rollDice['bg'] = self.color_btn_bg
