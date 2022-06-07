@@ -22,9 +22,9 @@ def connectOpenAPI():
     while list_current_page <= 5:
         queryParams = '?' + urlencode(
             {
-                quote_plus('Key') : My_API_Key,    # 인증키
-                quote_plus('pIndex') : list_current_page,   # 페이지 위치
-                quote_plus('pSize') : 1000,  # 페이지 당 요청 숫자
+                quote_plus('Key'): My_API_Key,    # 인증키
+                quote_plus('pIndex'): list_current_page,   # 페이지 위치
+                quote_plus('pSize'): 1000,  # 페이지 당 요청 숫자
              }
         )
         res = Request(xmlUrl+queryParams)
