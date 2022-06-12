@@ -143,7 +143,10 @@ class GUI:
                 popup.title("map.py")
                 map_widget = tkintermapview.TkinterMapView(popup, width=800, height=500, corner_radius=0)
                 map_widget.pack()
+
+                print(s['REFINE_WGS84_LOGT'], s['REFINE_WGS84_LAT'])
                 marker_1 = map_widget.set_address(s['REFINE_ROADNM_ADDR'], marker=True)
+
                 print(marker_1.position, marker_1.text)
                 marker_1.set_text(s['TMP01'])
                 map_widget.set_zoom(15)

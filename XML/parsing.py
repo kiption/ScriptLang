@@ -32,7 +32,6 @@ def connectOpenAPI():
         response_body = urlopen(res).read()             # 응답 객체를 바이트 배열로 읽는다.
 
         xmlobj = response_body.decode('utf-8')          # 바이트 배열을 문자열 배열로 변환
-
         try:
             tree = ET.ElementTree(ET.fromstring(xmlobj))
             root = tree.getroot()
