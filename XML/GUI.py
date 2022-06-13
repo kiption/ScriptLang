@@ -151,18 +151,7 @@ class GUI:
         global addrEmail
         global popup, data2
         addrEmail = inputEmail.get()
-
-        str = ""
-        for s in parsing.wifi_list:
-            if s['TMP01'] == data2:
-                str = s['TMP01'] + "의 와이파이 상세 정보" + '\n' + \
-                      "지번주소:" + s['REFINE_LOTNO_ADDR'] + '\n' + \
-                      '도로명주소:' + s['REFINE_ROADNM_ADDR'] + '\n' + \
-                      '위도:' + s['REFINE_WGS84_LOGT'] + '\n' + \
-                      '경도:' + s['REFINE_WGS84_LAT'] + '\n' + \
-                      '전화번호:' + s['MANAGE_INST_TELNO'] + '\n'
-
-                send_gmail.sendMail(addrEmail, str)
+        send_gmail.sendMail(addrEmail, data2)
 
         popup.destroy()  # popup 내리기
 
