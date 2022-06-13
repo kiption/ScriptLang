@@ -3,7 +3,6 @@ from tkinter import font
 import parsing
 import tkintermapview
 import send_gmail
-
 data = []
 data2 = []
 citylist = ['오산시', '부천시', '광주시', '포천시', '평택시', '안산시', '양평군', '김포시', '파주시',
@@ -29,6 +28,7 @@ class GUI:
         self.frameCombo = Frame(g_Tk, pady=10, bg=bgColor)
         self.frameEntry = Frame(g_Tk, pady=10, bg=bgColor)
         self.frameList = Frame(g_Tk, padx=10, pady=10, bg=bgColor)
+        self.frameLabel = Frame(g_Tk,padx=10, pady=5, bg=bgColor)
 
 
         self.initLogo()
@@ -40,7 +40,8 @@ class GUI:
         self.frameTitle.pack(side="top", fill="x")
         self.frameCombo.pack(side="top", fill="x")
         self.frameEntry.pack(side="top", fill="x")
-        self.frameList.pack(side="bottom", fill="both", expand=True)
+        self.frameList.pack(side="left", fill="both", expand=True)
+        self.frameLabel.pack(side="right", fill="both", expand=True)
 
         WhereFiIconBox = Label(self.frameCombo, image=images['Title'], bg=bgColor)
         WhereFiIconBox.pack(side='left', padx=10, fill='y', expand=True)
@@ -73,47 +74,39 @@ class GUI:
         LBScrollbar.config(command=SearchListBox.yview)
 
         # 목록 부분
-        global listBox, LBScrollbar2, listBox2, RBScrollbar
+        global listBox, LBScrollbar2, WiFi_Details_Label
         LBScrollbar2 = Scrollbar(self.frameList)
-        listBox = Listbox(self.frameList, selectmode='extended', font=self.fontNormal2, width=10, height=15, borderwidth=12,
+        listBox = Listbox(self.frameList, selectmode='extended', font=self.fontNormal2, width=10, height=15,
+                          borderwidth=12,
                           relief='ridge', yscrollcommand=LBScrollbar2.set)
 
         for s in parsing.wifi_list:
             listBox.insert(END, s['TMP01'])
 
+
+        listBox.bind('<<ListboxSelect>>', clicked_listbox)
         listBox.pack(side='left', anchor='n', expand=True, fill="both")
         LBScrollbar2.pack(side="left", fill='y')
         LBScrollbar2.config(command=listBox.yview)
 
-        RBScrollbar = Scrollbar(self.frameList)
-        listBox2 = Listbox(self.frameList, selectmode='extended', font=self.fontNormal2, width=10, height=15, borderwidth=12,
-                          relief='ridge', yscrollcommand=RBScrollbar.set)
 
-        for s in parsing.wifi_list:
-            if s['TMP01'] == data2:
-                listBox2.insert(END,'====================상세정보====================',
-                                '설치장소상세 - ' + s['INSTL_PLC_DETAIL_DTLS'],
-                                '도로명 주소 - ' + s['REFINE_ROADNM_ADDR'],
-                                '지번 주소 - ' + s['REFINE_LOTNO_ADDR'],
-                                'SSID - ' + s['WIFI_SSID_INFO'],
-                                '관리 기관명 - ' + s['MANAGE_INST_NM'],
-                                '전화번호 - ' + s['MANAGE_INST_TELNO'],
-                                '===============================================')
+        WiFi_Details_Label = Label(self.frameLabel, font=self.fontNormal2, width=10, height=15,
+                                   borderwidth=12,
+                                   relief='ridge')
 
-        listBox.bind('<<ListboxSelect>>', clicked_listbox)
-        listBox2.pack(side='left', anchor='n', expand=True, fill="both")
-        RBScrollbar.pack(side="right", fill='y')
-        RBScrollbar.config(command=listBox2.yview)
+        WiFi_Details_Label.pack(side='top', anchor='n', expand=True, fill="both")
+
+
+
 
     def GetInfo(self):
-        global data, SearchListBox, listBox, listBox2, LBScrollbar, LBScrollbar2, RBScrollbar
+        global data, SearchListBox, listBox, WiFi_Details_Label, LBScrollbar, LBScrollbar2
         parsing.SearchWifi(data)
         LBScrollbar.destroy()
         LBScrollbar2.destroy()
-        RBScrollbar.destroy()
         SearchListBox.destroy()
         listBox.destroy()
-        listBox2.destroy()
+        WiFi_Details_Label.destroy()
         self.draw()
 
     def onSearch(self):  # "검색" 버튼 이벤트처리
@@ -140,10 +133,16 @@ class GUI:
                 map_widget = tkintermapview.TkinterMapView(popup, width=800, height=500, corner_radius=0)
                 map_widget.pack()
 
-                marker_1 = map_widget.set_address(s['REFINE_ROADNM_ADDR'], marker=True)
+                latitude = float(s['REFINE_WGS84_LAT'])
+                longitude = float(s['REFINE_WGS84_LOGT'])
+
+                marker_1 = map_widget.set_position(latitude, longitude, marker=True)
 
                 marker_1.set_text(s['TMP01'])
                 map_widget.set_zoom(15)
+
+
+
 
     def getStr(s):
         return '' if not s else s
@@ -201,6 +200,18 @@ def clicked_listbox(event):  # 와이파이 상세정보 출력
     if selection:
         index = selection[0]
         data2 = event.widget.get(index)
+
+    for s in parsing.wifi_list:
+        if s['TMP01'] == data2:
+            str = '====================상세정보====================' \
+                  + '\n설치장소상세 -' + s['INSTL_PLC_DETAIL_DTLS'] \
+                  + '\n도로명 주소 - ' + s['REFINE_ROADNM_ADDR'] \
+                  + '\n지번 주소 - ' + s['REFINE_LOTNO_ADDR'] \
+                  + '\nSSID - ' + s['WIFI_SSID_INFO'] \
+                  + '\n관리 기관명 - ' + s['MANAGE_INST_NM'] \
+                  + '\n전화번호 - ' + s['MANAGE_INST_TELNO'] \
+                  + '\n==============================================='
+            WiFi_Details_Label.configure(text=str)
 
 gui = GUI()  # 화면 전체 구성
 
