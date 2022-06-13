@@ -1,11 +1,9 @@
 import sys
 import telepot
-from pprint import pprint
 from urllib.request import urlopen
 from urllib.parse import unquote,quote
 import traceback
 from xml.etree import ElementTree
-from xml.dom.minidom import parseString
 
 key = unquote('479bf253ef6045b9ad99cc507e191013')                                       # 무료 와이파이 api key
 # TOKEN = '5383087654:AAE7LFzA831IH-hfMcy8nAlWJLiqsNvSGfw'                              # 세철 텔레그램 봇 토큰

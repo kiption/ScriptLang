@@ -6,7 +6,7 @@ setup(
     name='ScriptLang_WhereFi',
     version='1.0',
 
-    py_modules=['gui_test','mapview','noti','parsing','send_gmail','setup','teller'],
+    py_modules=['GUI', 'noti', 'parsing', 'send_gmail', 'setup', 'teller'],
 
     packages=['image'],
     package_data={'image':['*.png']},

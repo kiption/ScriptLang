@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import font
-from PIL import ImageTk
 import parsing
 import tkintermapview
 import send_gmail
@@ -109,9 +108,6 @@ class GUI:
     def GetInfo(self):
         global data, SearchListBox, listBox, listBox2, LBScrollbar, LBScrollbar2, RBScrollbar
         parsing.SearchWifi(data)
-        print("검색...")
-        if (parsing.wifi_list):
-            print(parsing.wifi_list[0])
         LBScrollbar.destroy()
         LBScrollbar2.destroy()
         RBScrollbar.destroy()
@@ -146,7 +142,6 @@ class GUI:
 
                 marker_1 = map_widget.set_address(s['REFINE_ROADNM_ADDR'], marker=True)
 
-                print(marker_1.position, marker_1.text)
                 marker_1.set_text(s['TMP01'])
                 map_widget.set_zoom(15)
 
@@ -170,7 +165,6 @@ class GUI:
 
                 send_gmail.sendMail(addrEmail, str)
 
-        # sendMail(senderAddr, recipientAddr, msg)
         popup.destroy()  # popup 내리기
 
     def onEmailPopup(self):
@@ -200,7 +194,6 @@ def event_for_listbox(event):  # 리스트 선택 시 내용 출력
     if selection:
         index = selection[0]
         data = event.widget.get(index)
-        print(data)
 
 def clicked_listbox(event):  # 와이파이 상세정보 출력
     global data2
@@ -208,8 +201,6 @@ def clicked_listbox(event):  # 와이파이 상세정보 출력
     if selection:
         index = selection[0]
         data2 = event.widget.get(index)
-        print(data2)
-    print('클릭')
 
 gui = GUI()  # 화면 전체 구성
 

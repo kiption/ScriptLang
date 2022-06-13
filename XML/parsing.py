@@ -1,7 +1,6 @@
 
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
-from xml.dom.minidom import *               # 파일 파싱에 사용할 함수
 import xml.etree.ElementTree as ET              # elment 관리에 사용할 클래스
 
 #인증키
