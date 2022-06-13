@@ -16,27 +16,30 @@ baseurl ='https://openapi.gg.go.kr/FreeChargeWiFi'+ '?KEY=' + key
 bot = telepot.Bot(TOKEN)
 
 # loc_param: 도시이름
-# 반환 : 장소 별로 있는 와이파이에대한 정보를 문자열로 표현한 리스트
+# 반환 : 와이파이 상세정보를 문자열로 표현한 리스트
 def getData(loc_param):
     res_list = []
 
-    #공공데이터 포털에서 지역 + 기간에
-    #해당하는 거래 정보를 가져와서 -> html 해석 -> ‘item’항목들의
     url = baseurl+'&SIGUN_NM='+quote(loc_param)
     res_body = urlopen(url).read()
     strXml = res_body.decode('utf-8')
     tree = ElementTree.fromstring(strXml)
     items = tree.iter("row") # return list type
-
+    index = 1
     for item in items:
         PlaceAddr = '설치장소(상세) - ' + item.find("INSTL_PLC_DETAIL_DTLS").text      # 설치장소상세
-        LoadAddr = '도로명 주소 - ' + item.find("REFINE_ROADNM_ADDR").text          # 도로명 주소
+        try:
+            LoadAddr = '도로명 주소 - ' + item.find("REFINE_ROADNM_ADDR").text  # 도로명 주소
+        except:
+            LoadAddr = '도로명 주소 - 없음'
+
         LoadAddrPlus ='지번 주소 - ' + item.find("REFINE_LOTNO_ADDR").text       # 지번 주소
         SSID = 'SSID - ' + item.find("WIFI_SSID_INFO").text                  # SSID
         NamePlace = '관리기관 - ' + item.find("MANAGE_INST_NM").text             # 관리 기관명
-        PhoneNumber = '전화번호 - ' +item.find("MANAGE_INST_TELNO").text.strip()        # 전화번호
-        row = PlaceAddr + '\n' + LoadAddr + '\n' + LoadAddrPlus + '\n' + SSID + '\n' + NamePlace + '\n(' + PhoneNumber + ')'
+        PhoneNumber = '전화번호 - ' +item.find("MANAGE_INST_TELNO").text       # 전화번호
+        row = '[' + str(index) + '] ' + PlaceAddr + '\n' + LoadAddr + '\n' + LoadAddrPlus + '\n' + SSID + '\n' + NamePlace + '\n(' + PhoneNumber + ')\n'
         res_list.append(row)
+        index += 1
     return res_list
 
 def sendMessage(user, msg):

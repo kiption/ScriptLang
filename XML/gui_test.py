@@ -144,7 +144,6 @@ class GUI:
                 map_widget = tkintermapview.TkinterMapView(popup, width=800, height=500, corner_radius=0)
                 map_widget.pack()
 
-                print(s['REFINE_WGS84_LOGT'], s['REFINE_WGS84_LAT'])
                 marker_1 = map_widget.set_address(s['REFINE_ROADNM_ADDR'], marker=True)
 
                 print(marker_1.position, marker_1.text)
@@ -203,7 +202,7 @@ def event_for_listbox(event):  # 리스트 선택 시 내용 출력
         data = event.widget.get(index)
         print(data)
 
-def clicked_listbox(event):  # 리스트 선택 시 내용 출력
+def clicked_listbox(event):  # 와이파이 상세정보 출력
     global data2
     selection = event.widget.curselection()
     if selection:

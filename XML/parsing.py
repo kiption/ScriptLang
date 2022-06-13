@@ -13,11 +13,10 @@ xmlUrl = 'https://openapi.gg.go.kr/FreeChargeWiFi'
 list_total_count = 4490
 list_current_page = 1
 DataDoc = []
-xmlobj = []
 wifi_list = []
 
 def connectOpenAPI():
-    global list_current_page, xmlobj, DataDoC
+    global list_current_page, DataDoC
 
     while list_current_page <= 5:
         queryParams = '?' + urlencode(

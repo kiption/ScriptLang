@@ -57,11 +57,7 @@ def handle(msg):
     text = msg['text']
     args = text.split(' ')
 
-    if text.startswith('거래') and len(args) > 1:
-        print('try to 거래', args[1])
-        replyAptData(chat_id, args[1])
-
-    elif text.startswith('지역') and len(args) > 1:
+    if text.startswith('지역') and len(args) > 1:
         print('try to 지역', args[1])
         replyAptData(chat_id, args[1])
 
@@ -75,10 +71,10 @@ def handle(msg):
 
     else:
         noti.sendMessage(chat_id, '''모르는 명령어입니다.\n
-        거래 [YYYYMM] [지역번호]\n
         지역 [지역번호]\n
         저장 [지역번호]\n
-        확인 중 하나의 명령을 입력하세요.\n
+        확인 \n
+        중 하나의 명령을 입력하세요.\n
         지역 ['오산시', '부천시', '광주시', '포천시', '평택시', '안산시', '양평군', '김포시', '파주시',
                  '고양시', '성남시', '여주시', '수원시', '양주시', '연천군', '화성시', '과천시', '시흥시',
                  '구리시', '남양주시', '의왕시', '안성시', '하남시', '용인시', '안양시', '광명시', '의정부시',
